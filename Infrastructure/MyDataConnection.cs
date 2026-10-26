@@ -6,5 +6,5 @@ namespace Infrastructure;
 
 public class MyDataConnection(DataOptions<MyDataConnection> options) : DataConnection(options.Options)
 {
-    public ITable<User> Products => this.GetTable<User>();
+    public ITable<User> Users => this.GetTable<User>();
 }
