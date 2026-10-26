@@ -11,10 +11,44 @@ namespace API.Controllers;
 [Route("api/[controller]")]
 public class UserController(UserService service, IAuthenticationService authenticationService) : ControllerBase
 {
+    [Authorize(Roles = "SuperUser,Admin")]
+    [HttpPut(nameof(Update))]
+    public async Task<IActionResult> Update(UpdateRequestDTO dto)
+    {
+        var role = User.FindFirst(ClaimTypes.Role)?.Value;
+        if (!Enum.TryParse<UserRole>(role, out var actorRole))
+            return Forbid();
+
+        var result = await service.Update(dto, actorRole);
+
+        return result switch
+        {
+            OperationResult.Success => NoContent(),
+            OperationResult.NotFound => NotFound(),
+            _ => Forbid()
+        };
+    }
+    
     [HttpGet(nameof(GetUsers))]
     public async Task<List<User>> GetUsers()
     {
         return await service.GetAll();
+    }
+
+    [HttpGet(nameof(GetById))]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var user = await service.GetById(id);
+
+        if (user is null)
+            return NotFound();
+        
+        return Ok(new
+        { 
+            user.UserId,
+            user.UserName,
+            user.Role
+        });
     }
 
     [HttpPost(nameof(CreateUser))]
@@ -39,8 +73,8 @@ public class UserController(UserService service, IAuthenticationService authenti
         // Translate the service result into an HTTP response
         return result switch
         {
-            DeleteResult.Success => NoContent(), // deleted success
-            DeleteResult.NotFound => NotFound(), // user does not exist
+            OperationResult.Success => NoContent(), // deleted success
+            OperationResult.NotFound => NotFound(), // user does not exist
             _ => Forbid() // not allowed
 
         };
@@ -64,4 +98,5 @@ public class UserController(UserService service, IAuthenticationService authenti
             Token = token
         });
     }
+    
 }

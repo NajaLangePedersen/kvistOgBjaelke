@@ -13,14 +13,14 @@ public class UserRepository(MyDataConnection dc) : IUserRepository
         await dc.InsertAsync(user);
     }
 
-    public Task<User?> GetById(string id)
+    public async Task<User?> GetById(string id)
     {
-        throw new NotImplementedException();
+        return await dc.Users.FirstOrDefaultAsync(user => user.UserId == id);
     }
 
-    public Task Update(User user)
+    public async Task Update(User user)
     {
-        throw new NotImplementedException();
+        await dc.UpdateAsync(user);
     }
 
     public async Task Delete(User user)
