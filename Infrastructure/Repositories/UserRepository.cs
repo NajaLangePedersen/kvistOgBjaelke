@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Entities;
+using LinqToDB;
 using LinqToDB.Async;
+using SQLitePCL;
 
 namespace Infrastructure.Repositories;
 
@@ -20,9 +22,9 @@ public class UserRepository(MyDataConnection dc) : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task Delete(User user)
+    public async Task Delete(User user)
     {
-        throw new NotImplementedException();
+        await dc.DeleteAsync(user);
     }
 
     public Task<List<User>> GetAll()
