@@ -1,20 +1,13 @@
-import "./index.css";
-
-import logo from "./logo.svg";
-import reactLogo from "./react.svg";
+import {UserList} from "@/UserList.tsx";
 
 export function App() {
-  return (
-    <div className="app">
-      <div className="logo-container">
-        <img src={logo} alt="Bun Logo" className="logo bun-logo" />
-        <img src={reactLogo} alt="React Logo" className="logo react-logo" />
-      </div>
+    return (
+        <div className="app">
 
-      <h1>Bun + React</h1>
-
-    </div>
-  );
+            <h1>Kvist og Bjælke</h1>
+            <UserList/>
+        </div>
+    );
 }
 
 export default App;

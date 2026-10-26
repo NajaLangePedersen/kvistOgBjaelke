@@ -1,7 +1,7 @@
-import { Api } from "./myApi";
+import {Api} from "@/api/Api.ts";
 
 class ApiClient {
-    public api: Api;
+    public api: Api<any>;
 
     constructor() {
         this.api = new Api();
