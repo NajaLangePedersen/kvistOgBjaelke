@@ -2,6 +2,7 @@
 using Infrastructure.Repositories.Interface;
 using LinqToDB;
 using LinqToDB.Async;
+using SQLitePCL;
 
 namespace Infrastructure.Repositories;
 
@@ -22,13 +23,18 @@ public class UserRepository(MyDataConnection dc) : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task Delete(User user)
+    public async Task Delete(User user)
     {
-        throw new NotImplementedException();
+        await dc.DeleteAsync(user);
     }
 
     public async Task<List<User>> GetAll()
     {
         return await dc.Users.ToListAsync();
+    }
+
+    public async Task<User?> GetByUsername(string username)
+    {
+        return await dc.Users.FirstOrDefaultAsync(u => u.UserName == username);
     }
 }
