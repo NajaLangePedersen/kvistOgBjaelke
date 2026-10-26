@@ -1,5 +1,5 @@
 ﻿using Infrastructure.Entities;
-using Infrastructure.Repositories;
+using Infrastructure.Repositories.Interface;
 using Service.Security;
 
 namespace Service;

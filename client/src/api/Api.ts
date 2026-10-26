@@ -28,6 +28,20 @@ export interface UserCreateUserParams {
   password?: string;
   role?: UserRole;
   loggedInUserRole?: UserRole;
+  role: UserRole;
+}
+
+export interface LoginResponseDTO {
+  token: string;
+}
+
+export interface LoginRequestDTO {
+  username: string;
+  password: string;
+}
+
+export interface UserDeleteParams {
+  id?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -293,17 +307,17 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  getUsers = {
+  api = {
     /**
      * No description
      *
      * @tags User
      * @name UserGetUsers
-     * @request GET:/GetUsers
+     * @request GET:/api/User/GetUsers
      */
     userGetUsers: (params: RequestParams = {}) =>
       this.request<User[], any>({
-        path: `/GetUsers`,
+        path: `/api/User/GetUsers`,
         method: "GET",
         format: "json",
         ...params,
@@ -325,6 +339,38 @@ export class Api<
         path: `/CreateUser`,
         method: "POST",
         query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserDelete
+     * @request DELETE:/api/User/Delete
+     */
+    userDelete: (query: UserDeleteParams = {}, params: RequestParams = {}) =>
+      this.request<Blob, any>({
+        path: `/api/User/Delete`,
+        method: "DELETE",
+        query: query,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserLogin
+     * @request POST:/api/User/login
+     */
+    userLogin: (data: LoginRequestDTO, params: RequestParams = {}) =>
+      this.request<LoginResponseDTO, any>({
+        path: `/api/User/login`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
         ...params,
       }),
   };
