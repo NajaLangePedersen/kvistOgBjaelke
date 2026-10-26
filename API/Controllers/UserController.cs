@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 using Service.DTOs;

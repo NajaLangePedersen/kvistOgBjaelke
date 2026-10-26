@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Repositories;
 using LinqToDB;
 using Service;
+using Service.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +12,12 @@ var options = new DataOptions().UseSQLite(connectionString);
 var dataOptions = new DataOptions<MyDataConnection>(options);
 
 builder.Services.AddScoped<MyDataConnection>(_ => new MyDataConnection(dataOptions));
+builder.Services.AddScoped<IPasswordHasher, Argon2PasswordHasher>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<MySeeder>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddControllers();
 
 builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
