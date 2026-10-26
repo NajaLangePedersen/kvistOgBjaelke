@@ -1,16 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Infrastructure.Entities;
 using Infrastructure.Repositories.Interface;
+using Service.DTOs;
+using Service.Security;
 
 namespace Service;
 
-public enum DeleteResult
+public enum OperationResult
 {
     Success,
     NotFound,
     Forbidden,
 }
-public class UserService(IUserRepository userRepo)
+public class UserService(IUserRepository userRepo, IPasswordHasher hasher)
 {
 
     public async Task Insert(String username, String password, UserRole role, UserRole loggedInUserRole)
@@ -32,30 +34,53 @@ public class UserService(IUserRepository userRepo)
         }
     }
 
-    public Task<User?> GetById(string id)
+    public async Task<User?> GetById(string id)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(id))
+            throw new ValidationException("Id cant be empty");
+        return await userRepo.GetById(id);
     }
 
-    public Task Update(User user)
+    public async Task <OperationResult> Update(UpdateRequestDTO dto, UserRole actorRole)
     {
-        throw new NotImplementedException();
+        var existing = await userRepo.GetById(dto.UserId);
+
+        if (existing is null)
+            return OperationResult.NotFound;
+
+        if (!CanManage(actorRole, existing.Role))
+            return OperationResult.Forbidden;
+
+        if (dto.Role is not null && !CanManage(actorRole, dto.Role.Value))
+            return OperationResult.Forbidden;
+
+        if (!string.IsNullOrWhiteSpace(dto.UserName))
+            dto.UserName = dto.UserName;
+
+        if (!string.IsNullOrWhiteSpace(dto.NewPassword))
+            dto.NewPassword = hasher.HashAndSaltPassword(dto.NewPassword);
+
+        if (dto.Role is not null)
+            existing.Role = dto.Role.Value;
+
+        await userRepo.Update(existing);
+        return OperationResult.Success;
     }
     
-    public async Task <DeleteResult> Delete(string targetId, UserRole actorRole)
+    public async Task <OperationResult> Delete(string targetId, UserRole actorRole)
     {
         var target = await userRepo.GetById(targetId);
         
         // Stops if the user does not exist
         if (target is null)
-            return DeleteResult.NotFound;
+            return OperationResult.NotFound;
 
         // Stop if the acting role is not allowed to delete the target user.
         if (!CanManage(actorRole, target.Role))
-            return DeleteResult.Forbidden;
+            return OperationResult.Forbidden;
         
         await userRepo.Delete(target);
-        return DeleteResult.Success;
+        return OperationResult.Success;
 
 
     }
