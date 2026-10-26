@@ -9,10 +9,10 @@ namespace Service.Security;
 
 public class TokenService(IConfiguration configuration) : ITokenService
 {
-    private const string Issuer = "Jwt:Issuer";
-    private const string Audience = "Jwt:Audience";
+    private const string Issuer = "security-api";
+    private const string Audience = "security-api";
     private readonly SymmetricSecurityKey _key = new(Encoding.UTF8.GetBytes(
-        configuration["Jwt:Secret"] ?? throw new InvalidOperationException("JwtSecret is missing.")));
+        configuration["JwtSecret"] ?? throw new InvalidOperationException("JwtSecret is missing.")));
 
     public string GenerateToken(User user)
     {

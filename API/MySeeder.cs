@@ -1,10 +1,11 @@
 using Infrastructure;
 using Infrastructure.Entities;
 using LinqToDB;
+using Service.Security;
 
 namespace API;
 
-public class MySeeder(MyDataConnection dc)
+public class MySeeder(MyDataConnection dc, IPasswordHasher passwordHasher)
 {
     public void Seed()
     {
@@ -17,7 +18,7 @@ public class MySeeder(MyDataConnection dc)
                 {
                     UserId = Guid.NewGuid().ToString(),
                     UserName = i.ToString(),
-                    Password = "123",
+                    Password = passwordHasher.HashAndSaltPassword("123"),
                     Role = UserRole.Admin
                 });
             }
