@@ -16,6 +16,13 @@ export enum UserRole {
   Admin = 2,
 }
 
+export interface UpdateRequestDTO {
+  userId: string;
+  userName: string;
+  newPassword?: string | null;
+  role?: UserRole | null;
+}
+
 export interface User {
   userId: string;
   userName: string;
@@ -32,11 +39,14 @@ export interface LoginRequestDTO {
   password: string;
 }
 
+export interface UserGetByIdParams {
+  id?: string;
+}
+
 export interface UserCreateUserParams {
   username?: string;
   password?: string;
   role?: UserRole;
-  loggedInUserRole?: UserRole;
 }
 
 export interface UserDeleteParams {
@@ -311,14 +321,51 @@ export class Api<
      * No description
      *
      * @tags User
+     * @name UserUpdate
+     * @request PUT:/api/User/Update
+     * @secure
+     */
+    userUpdate: (data: UpdateRequestDTO, params: RequestParams = {}) =>
+      this.request<Blob, any>({
+        path: `/api/User/Update`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
      * @name UserGetUsers
      * @request GET:/api/User/GetUsers
+     * @secure
      */
     userGetUsers: (params: RequestParams = {}) =>
       this.request<User[], any>({
         path: `/api/User/GetUsers`,
         method: "GET",
+        secure: true,
         format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserGetById
+     * @request GET:/api/User/GetById
+     * @secure
+     */
+    userGetById: (query: UserGetByIdParams = {}, params: RequestParams = {}) =>
+      this.request<Blob, any>({
+        path: `/api/User/GetById`,
+        method: "GET",
+        query: query,
+        secure: true,
         ...params,
       }),
 
@@ -328,15 +375,17 @@ export class Api<
      * @tags User
      * @name UserCreateUser
      * @request POST:/api/User/CreateUser
+     * @secure
      */
     userCreateUser: (
       query: UserCreateUserParams = {},
       params: RequestParams = {},
     ) =>
-      this.request<void, any>({
+      this.request<Blob, any>({
         path: `/api/User/CreateUser`,
         method: "POST",
         query: query,
+        secure: true,
         ...params,
       }),
 
@@ -346,12 +395,14 @@ export class Api<
      * @tags User
      * @name UserDelete
      * @request DELETE:/api/User/Delete
+     * @secure
      */
     userDelete: (query: UserDeleteParams = {}, params: RequestParams = {}) =>
       this.request<Blob, any>({
         path: `/api/User/Delete`,
         method: "DELETE",
         query: query,
+        secure: true,
         ...params,
       }),
 
@@ -361,12 +412,14 @@ export class Api<
      * @tags User
      * @name UserLogin
      * @request POST:/api/User/login
+     * @secure
      */
     userLogin: (data: LoginRequestDTO, params: RequestParams = {}) =>
       this.request<LoginResponseDTO, any>({
         path: `/api/User/login`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
