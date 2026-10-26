@@ -29,4 +29,9 @@ public class UserRepository(MyDataConnection dc) : IUserRepository
     {
         return dc.Users.ToListAsync();
     }
+
+    public async Task<User?> GetByUsername(string username)
+    {
+        return await dc.Users.FirstOrDefaultAsync(u => u.UserName == username);
+    }
 }
