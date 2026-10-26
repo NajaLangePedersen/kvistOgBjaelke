@@ -1,6 +1,6 @@
 ﻿using Infrastructure.Entities;
 
-namespace Infrastructure.Repositories;
+namespace Infrastructure.Repositories.Interface;
 
 public interface IUserRepository 
 {

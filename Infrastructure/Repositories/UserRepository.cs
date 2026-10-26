@@ -1,13 +1,15 @@
 ﻿using Infrastructure.Entities;
+using Infrastructure.Repositories.Interface;
+using LinqToDB;
 using LinqToDB.Async;
 
 namespace Infrastructure.Repositories;
 
 public class UserRepository(MyDataConnection dc) : IUserRepository
 {
-    public Task Insert(User user)
+    public async Task Insert(User user)
     {
-        throw new NotImplementedException();
+        await dc.InsertAsync(user);
     }
 
     public Task<User?> GetById(string id)
@@ -25,8 +27,8 @@ public class UserRepository(MyDataConnection dc) : IUserRepository
         throw new NotImplementedException();
     }
 
-    public Task<List<User>> GetAll()
+    public async Task<List<User>> GetAll()
     {
-        return dc.Users.ToListAsync();
+        return await dc.Users.ToListAsync();
     }
 }

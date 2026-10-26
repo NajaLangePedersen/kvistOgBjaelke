@@ -6,6 +6,7 @@ class ApiClient {
     constructor() {
         this.api = new Api();
     }
+
 }
 
 export default new ApiClient();

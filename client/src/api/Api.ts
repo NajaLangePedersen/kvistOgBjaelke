@@ -10,10 +10,24 @@
  * ---------------------------------------------------------------
  */
 
+export enum UserRole {
+  User = 0,
+  SuperUser = 1,
+  Admin = 2,
+}
+
 export interface User {
   userId: string;
   userName: string;
   password: string;
+  role: UserRole;
+}
+
+export interface UserCreateUserParams {
+  username?: string;
+  password?: string;
+  role?: UserRole;
+  loggedInUserRole?: UserRole;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -292,6 +306,25 @@ export class Api<
         path: `/GetUsers`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+  };
+  createUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserCreateUser
+     * @request POST:/CreateUser
+     */
+    userCreateUser: (
+      query: UserCreateUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/CreateUser`,
+        method: "POST",
+        query: query,
         ...params,
       }),
   };
