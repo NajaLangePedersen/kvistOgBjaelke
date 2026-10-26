@@ -1,7 +1,8 @@
+import {type User} from "@/api/Api.ts";
 import {useEffect, useState} from "react";
 import apiClient from "./ApiClient";
 
-export function UserList {
+export function UserList() {
 
     const [users, setUsers] = useState<User[]>([]);
 
@@ -17,7 +18,7 @@ export function UserList {
                 <div
                     key={user.userId}
                 >
-                    {user.username}
+                    {user.userName}
                 </div>
             ))}
         </div>
