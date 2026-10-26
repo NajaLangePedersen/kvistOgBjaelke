@@ -20,17 +20,17 @@ builder.Services.AddScoped<MySeeder>();
 
 
 builder.Services.AddProblemDetails();
-builder.Services.AddScoped<ProblemExceptionHandler>();
+builder.Services.AddExceptionHandler<ProblemExceptionHandler>();
 
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
 app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().SetIsOriginAllowed(_ => true));
 
 app.UseOpenApi();
-
-app.UseExceptionHandler();
 
 app.UseSwaggerUi();
 
