@@ -12,11 +12,11 @@ var dataOptions = new DataOptions<MyDataConnection>(options);
 
 builder.Services.AddScoped<MyDataConnection>(_ => new MyDataConnection(dataOptions));
 builder.Services.AddScoped<UserService>();
-
-
+builder.Services.AddScoped<MySeeder>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddControllers();
 
+builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
 
 var app = builder.Build();
 
@@ -31,5 +31,7 @@ using (var scope = app.Services.CreateScope())
     var seeder = scope.ServiceProvider.GetRequiredService<MySeeder>();
     seeder.Seed();
 }
+
+app.MapControllers();
 
 app.Run();
