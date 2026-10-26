@@ -13,9 +13,15 @@ namespace API.Controllers;
 public class UserController(UserService service, IAuthenticationService authenticationService) : ControllerBase
 {
     [HttpGet(nameof(GetUsers))]
-    public Task<List<User>> GetUsers()
+    public async Task<List<User>> GetUsers()
     {
-        return service.GetAll();
+        return await service.GetAll();
+    }
+
+    [HttpPost(nameof(CreateUser))]
+    public async Task CreateUser(String username, String password, UserRole role, UserRole loggedInUserRole)
+    {
+        await service.Insert(username, password, role, loggedInUserRole);
     }
 
     [Authorize(Roles = "SuperUser,Admin")]
