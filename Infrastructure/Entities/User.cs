@@ -8,6 +8,6 @@ public class User
     [Column] public string UserName { get; set; } = "";
     [Column] public string Password { get; set; } = "";
 
-    public UserRole Role { get; set; } = UserRole.User;
+    [Column] public UserRole Role { get; set; } = UserRole.User;
 
 }

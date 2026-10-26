@@ -18,7 +18,7 @@ public class MySeeder(MyDataConnection dc)
                     UserId = Guid.NewGuid().ToString(),
                     UserName = i.ToString(),
                     Password = "123",
-                    Role = UserRole.SuperUser,
+                    Role = UserRole.Admin
                 });
             }
 

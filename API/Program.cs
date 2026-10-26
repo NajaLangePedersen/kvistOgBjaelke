@@ -1,6 +1,7 @@
 using API;
 using Infrastructure;
 using Infrastructure.Repositories;
+using Infrastructure.Repositories.Interface;
 using LinqToDB;
 using Service;
 using Service.Security;

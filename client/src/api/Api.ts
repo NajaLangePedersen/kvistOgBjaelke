@@ -23,6 +23,14 @@ export interface User {
   role: UserRole;
 }
 
+export interface UserCreateUserParams {
+  username?: string;
+  password?: string;
+  role?: UserRole;
+  loggedInUserRole?: UserRole;
+  role: UserRole;
+}
+
 export interface LoginResponseDTO {
   token: string;
 }
@@ -312,6 +320,25 @@ export class Api<
         path: `/api/User/GetUsers`,
         method: "GET",
         format: "json",
+        ...params,
+      }),
+  };
+  createUser = {
+    /**
+     * No description
+     *
+     * @tags User
+     * @name UserCreateUser
+     * @request POST:/CreateUser
+     */
+    userCreateUser: (
+      query: UserCreateUserParams = {},
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/CreateUser`,
+        method: "POST",
+        query: query,
         ...params,
       }),
 
