@@ -1,88 +1,73 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infrastructure;
 using Infrastructure.Entities;
 using Infrastructure.Repositories.Interface;
 using Service.DTOs;
 using Service.Security;
 
 namespace Service;
-
-public enum OperationResult
-{
-    Success,
-    NotFound,
-    Forbidden,
-}
 public class UserService(IUserRepository userRepo, IPasswordHasher hasher)
 {
 
-    public async Task Insert(String username, String password, UserRole role, UserRole loggedInUserRole)
+    public async Task Insert(string username, string password, UserRole role, UserRole actorRole)
     {
-        if (loggedInUserRole is UserRole.SuperUser or UserRole.Admin)
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            throw new ValidationException("Username and password are required");
+
+        // The actor may only create roles they are allowed to manage
+        if (!CanManage(actorRole, role))
+            throw new ForbiddenException("You are not allowed to create this role");
+
+        await userRepo.Insert(new User
         {
-            var user = new User
-            {
-                UserName = username,
-                Password = password,
-                Role = role
-            };
-            
-            await userRepo.Insert(user);
-        }
-        else
-        {
-            throw new ValidationException("Invalid role");
-        }
+            UserId = Guid.NewGuid().ToString(),
+            UserName = username,
+            Password = hasher.HashAndSaltPassword(password), // never store plaintext
+            Role = role
+        });
     }
 
     public async Task<User?> GetById(string id)
     {
         if (string.IsNullOrWhiteSpace(id))
             throw new ValidationException("Id cant be empty");
-        return await userRepo.GetById(id);
+        return await userRepo.GetById(id) ??
+               throw new NotFoundException("User not found");
     }
 
-    public async Task <OperationResult> Update(UpdateRequestDTO dto, UserRole actorRole)
+    public async Task Update(UpdateRequestDTO dto, UserRole actorRole)
     {
-        var existing = await userRepo.GetById(dto.UserId);
-
-        if (existing is null)
-            return OperationResult.NotFound;
-
+        var existing = await userRepo.GetById(dto.UserId)
+                       ?? throw new NotFoundException("User not found");
+        
+        // Must be allowed to manage the current role...
         if (!CanManage(actorRole, existing.Role))
-            return OperationResult.Forbidden;
+            throw new ForbiddenException("You are not allowed to update this user");
 
+        
         if (dto.Role is not null && !CanManage(actorRole, dto.Role.Value))
-            return OperationResult.Forbidden;
+            throw new ForbiddenException("You are not allowed to assign this role");
 
         if (!string.IsNullOrWhiteSpace(dto.UserName))
-            dto.UserName = dto.UserName;
+            existing.UserName = dto.UserName;               // was dto.UserName = dto.UserName
 
         if (!string.IsNullOrWhiteSpace(dto.NewPassword))
-            dto.NewPassword = hasher.HashAndSaltPassword(dto.NewPassword);
+            existing.Password = hasher.HashAndSaltPassword(dto.NewPassword); // was written to the dto
 
         if (dto.Role is not null)
             existing.Role = dto.Role.Value;
 
         await userRepo.Update(existing);
-        return OperationResult.Success;
     }
     
-    public async Task <OperationResult> Delete(string targetId, UserRole actorRole)
+    public async Task Delete(string targetId, UserRole actorRole)
     {
-        var target = await userRepo.GetById(targetId);
-        
-        // Stops if the user does not exist
-        if (target is null)
-            return OperationResult.NotFound;
+        var target = await userRepo.GetById(targetId)
+                     ?? throw new NotFoundException("User not found");
 
-        // Stop if the acting role is not allowed to delete the target user.
         if (!CanManage(actorRole, target.Role))
-            return OperationResult.Forbidden;
-        
+            throw new ForbiddenException("You are not allowed to delete this user");
+
         await userRepo.Delete(target);
-        return OperationResult.Success;
-
-
     }
 
     public async Task<List<User>> GetAll()

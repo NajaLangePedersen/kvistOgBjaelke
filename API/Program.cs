@@ -19,15 +19,20 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<MySeeder>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddControllers();
 
-builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new RequireNotNullableSchemaProcessor()));
+builder.Services.AddScoped<ProblemExceptionHandler>();
+builder.Services.AddOpenApiDocument(settings => settings.SchemaSettings.SchemaProcessors.Add(new
+    RequireNotNullableSchemaProcessor()));
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
 app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().SetIsOriginAllowed(_ => true));
 
 app.UseOpenApi();
+
+app.UseExceptionHandler();
 
 app.UseSwaggerUi();
 
