@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Infrastructure;
 using Infrastructure.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,20 +14,10 @@ public class UserController(UserService service, IAuthenticationService authenti
 {
     [Authorize(Roles = "SuperUser,Admin")]
     [HttpPut(nameof(Update))]
-    public async Task<IActionResult> Update(UpdateRequestDTO dto)
+    public async Task<IActionResult> Update(UpdateRequestDTO request)
     {
-        var role = User.FindFirst(ClaimTypes.Role)?.Value;
-        if (!Enum.TryParse<UserRole>(role, out var actorRole))
-            return Forbid();
-
-        var result = await service.Update(dto, actorRole);
-
-        return result switch
-        {
-            OperationResult.Success => NoContent(),
-            OperationResult.NotFound => NotFound(),
-            _ => Forbid()
-        };
+        await service.Update(request, GetActorRole());
+        return NoContent();
     }
     
     [HttpGet(nameof(GetUsers))]
@@ -34,50 +25,34 @@ public class UserController(UserService service, IAuthenticationService authenti
     {
         return await service.GetAll();
     }
-
+    
+    
+    [Authorize]
     [HttpGet(nameof(GetById))]
     public async Task<IActionResult> GetById(string id)
     {
         var user = await service.GetById(id);
-
-        if (user is null)
-            return NotFound();
-        
-        return Ok(new
-        { 
+        return Ok(new { 
             user.UserId,
             user.UserName,
             user.Role
         });
     }
 
+    [Authorize(Roles = "SuperUser,Admin")]
     [HttpPost(nameof(CreateUser))]
-    public async Task CreateUser(String username, String password, UserRole role, UserRole loggedInUserRole)
+    public async Task<IActionResult> CreateUser(string username, string password, UserRole role)
     {
-        await service.Insert(username, password, role, loggedInUserRole);
+        await service.Insert(username, password, role, GetActorRole());
+        return NoContent();
     }
 
     [Authorize(Roles = "SuperUser,Admin")]
     [HttpDelete(nameof(Delete))]
     public async Task<IActionResult> Delete(string id)
     {
-        // Read the role of the logged-in user
-        var role = User.FindFirst(ClaimTypes.Role)?.Value;
-        
-        // If the role is missing or invalid, deny it
-        if (!Enum.TryParse<UserRole>(role, out var actorRole))
-            return Forbid();
-
-        var result = await service.Delete(id, actorRole);
-        
-        // Translate the service result into an HTTP response
-        return result switch
-        {
-            OperationResult.Success => NoContent(), // deleted success
-            OperationResult.NotFound => NotFound(), // user does not exist
-            _ => Forbid() // not allowed
-
-        };
+        await service.Delete(id, GetActorRole());
+        return NoContent();
     }
 
     [HttpPost("login")]
@@ -97,6 +72,15 @@ public class UserController(UserService service, IAuthenticationService authenti
         {
             Token = token
         });
+    }
+    
+    // reads the role from the token
+    private UserRole GetActorRole()
+    {
+        var role = User.FindFirst(ClaimTypes.Role)?.Value; // reads claim from the token
+        return Enum.TryParse<UserRole>(role, out var actorRole) // makes the text admin to UserRole.Admin
+            ? actorRole
+            : throw new ForbiddenException("Missing or invalid role");
     }
     
 }

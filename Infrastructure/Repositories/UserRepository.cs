@@ -2,7 +2,6 @@
 using Infrastructure.Repositories.Interface;
 using LinqToDB;
 using LinqToDB.Async;
-using SQLitePCL;
 
 namespace Infrastructure.Repositories;
 
