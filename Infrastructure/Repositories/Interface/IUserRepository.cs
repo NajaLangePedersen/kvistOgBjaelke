@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Repositories;
 
-public interface IUserRepository
+public interface IUserRepository 
 {
     Task Insert(User user);
     Task<User?> GetById(string id);
