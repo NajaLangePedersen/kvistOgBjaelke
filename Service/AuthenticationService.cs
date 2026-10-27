@@ -31,9 +31,5 @@ public class AuthenticationService(
 
         return tokenService.GenerateToken(user);
     }
-
-    public Task Logout()
-    {
-        throw new NotImplementedException();
-    }
+    
 }
