@@ -41,9 +41,9 @@ public class UserController(UserService service, IAuthenticationService authenti
 
     [Authorize(Roles = "SuperUser,Admin")]
     [HttpPost(nameof(CreateUser))]
-    public async Task<IActionResult> CreateUser(string username, string password, UserRole role)
+    public async Task<IActionResult> CreateUser([FromBody]CreateUserDTO dto)
     {
-        await service.Insert(username, password, role, GetActorRole());
+        await service.Insert(dto, GetActorRole());
         return NoContent();
     }
 

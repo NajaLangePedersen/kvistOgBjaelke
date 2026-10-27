@@ -8,21 +8,21 @@ namespace Service;
 public class UserService(IUserRepository userRepo, IPasswordHasher hasher)
 {
 
-    public async Task Insert(string username, string password, UserRole role, UserRole actorRole)
+    public async Task Insert(CreateUserDTO dto, UserRole actorRole)
     {
-        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+        if (string.IsNullOrWhiteSpace(dto.username) || string.IsNullOrWhiteSpace(dto.password))
             throw new ValidationException("Username and password are required");
 
         // The actor may only create roles they are allowed to manage
-        if (!CanManage(actorRole, role))
+        if (!CanManage(actorRole, dto.role))
             throw new ForbiddenException("You are not allowed to create this role");
 
         await userRepo.Insert(new User
         {
             UserId = Guid.NewGuid().ToString(),
-            UserName = username,
-            Password = hasher.HashAndSaltPassword(password), // never store plaintext
-            Role = role
+            UserName = dto.username,
+            Password = hasher.HashAndSaltPassword(dto.password),
+            Role = dto.role
         });
     }
 

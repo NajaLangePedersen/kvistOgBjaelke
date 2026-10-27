@@ -1,12 +1,15 @@
-import {Api} from "@/api/Api.ts";
+import { Api } from "@/api/Api";
 
-class ApiClient {
-    public api: Api<any>;
+const apiClient = new Api({
+    securityWorker: (token) => {
+        if (token) {
+            return {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+        }
+    },
+});
 
-    constructor() {
-        this.api = new Api();
-    }
-
-}
-
-export default new ApiClient();
+export default apiClient;
