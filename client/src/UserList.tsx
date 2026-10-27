@@ -16,7 +16,7 @@ export function UserList({loggedInUser}: {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        apiClient.api.api.userGetUsers().then(r => {
+        apiClient.api.userGetUsers().then(r => {
             setUsers(r);
         });
     }, []);
@@ -26,7 +26,7 @@ export function UserList({loggedInUser}: {
         if (!confirmed) return;
 
         try {
-            await apiClient.api.api.userDelete(
+            await apiClient.api.userDelete(
                 {id: user.userId},
                 {
                     headers: {

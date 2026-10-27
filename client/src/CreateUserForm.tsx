@@ -12,17 +12,16 @@ export function CreateUserForm({setUsers, loggedInUser}: {
     const [role, setRole] = useState<UserRole>(UserRole.User);
 
     function handleCreateUser() {
-        apiClient.api.createUser.userCreateUser({
+        apiClient.api.userCreateUser({
             username: userNameField,
             password: passwordField,
-            role: role,
-            loggedInUserRole: loggedInUser.role
+            role: role
         })
             .then(() => setUserNameField(""))
             .then(() => setPasswordField(""))
             .then(() => setRole(UserRole.User))
             .then(() => {
-                apiClient.api.getUsers.userGetUsers().then(r => {
+                apiClient.api.userGetUsers().then(r => {
                     setUsers(r);
                 })
             })
