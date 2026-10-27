@@ -16,7 +16,7 @@ export function UserList({loggedInUser}: {
     const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        apiClient.api.userGetUsers().then(r => {
+        apiClient.api.api.userGetUsers().then(r => {
             setUsers(r);
         });
     }, []);
@@ -26,14 +26,9 @@ export function UserList({loggedInUser}: {
         if (!confirmed) return;
 
         try {
-            await apiClient.api.userDelete(
-                {id: user.userId},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // skal bruges når login page og token er lavet
-                    },
-                },
-            );
+            await apiClient.api.api.userDelete({
+                id: user.userId,
+            });
             setUsers(currentUser =>
                 currentUser.filter(currentUser => currentUser.userId !== user.userId)
             );

@@ -1,6 +1,7 @@
 import {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "@/ApiClient.ts";
+import {getUserFromToken} from "@/auth/getUserFromToken.ts";
 
 export default function LoginPage(){
     const [username, setUsername] = useState("");
@@ -13,14 +14,33 @@ export default function LoginPage(){
         setError("");
 
         try {
-            const response = await apiClient.api.userLogin({
-                    username,
-                    password,
+
+            const response = await apiClient.api.api.userLogin({
+                username,
+                password,
             });
 
-            localStorage.setItem("token",
-                response.token);
+            const token = response.token;
+
+            // Gem tokenet, så vi kan bruge det til API-kald.
+            localStorage.setItem("token", token);
+
+            apiClient.api.setSecurityData(token);
+
+            // Hent brugerens oplysninger fra tokenet.
+            const user = getUserFromToken(token);
+
+            if (!user) {
+                localStorage.removeItem("token");
+                setError("Could not read user information from login token");
+                return;
+            }
+
+            // Gem brugeren, så App.tsx kan hente den.
+            localStorage.setItem("loggedInUser", JSON.stringify(user));
+
             navigate("/users");
+
         } catch (err) {
             setError("Login failed");
         }

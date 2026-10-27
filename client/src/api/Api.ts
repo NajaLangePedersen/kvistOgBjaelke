@@ -30,6 +30,12 @@ export interface User {
   role: UserRole;
 }
 
+export interface CreateUserDTO {
+  username: string;
+  password: string;
+  role: UserRole;
+}
+
 export interface LoginResponseDTO {
   token: string;
 }
@@ -41,12 +47,6 @@ export interface LoginRequestDTO {
 
 export interface UserGetByIdParams {
   id?: string;
-}
-
-export interface UserCreateUserParams {
-  username?: string;
-  password?: string;
-  role?: UserRole;
 }
 
 export interface UserDeleteParams {
@@ -377,15 +377,13 @@ export class Api<
      * @request POST:/api/User/CreateUser
      * @secure
      */
-    userCreateUser: (
-      query: UserCreateUserParams = {},
-      params: RequestParams = {},
-    ) =>
+    userCreateUser: (data: CreateUserDTO, params: RequestParams = {}) =>
       this.request<Blob, any>({
         path: `/api/User/CreateUser`,
         method: "POST",
-        query: query,
+        body: data,
         secure: true,
+        type: ContentType.Json,
         ...params,
       }),
 
