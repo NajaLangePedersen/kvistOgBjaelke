@@ -40,7 +40,8 @@ Showing that we can log in from our client vm:
 
 **Reflections:**
 
-Problems:
-One problem we encountered was an incorrect file path in our Dockerfile. The Docker build failed because it could not find the project file at the specified location. We investigated the folder structure and discovered that the path in the Dockerfile did not match the actual location of the project. After correcting the path, (and downloading buildx) we were able to build the Docker image successfully.
+We learned how security and infrastructure work together: VLANs help separate clients and servers, while firewall rules control which traffic is allowed between them.
 
-final:
+One problem we ran into was an incorrect file path in our Dockerfile, which caused the Docker build to fail. We corrected the path (and downloaded buildx), and then it worked. This taught us the importance of checking configurations.
+
+We also gained experience setting up a server, deploying an application with Docker, and making it accessible from a client on another VLAN. We learned that several things need to work together for the application to be accessible. If we were to deploy the solution in a real company, we would focus more on security by using HTTPS, keeping the system updated, and making regular backups.
