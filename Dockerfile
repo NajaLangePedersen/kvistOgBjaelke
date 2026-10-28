@@ -3,7 +3,7 @@ WORKDIR /src
 COPY ["./", "."]
 ARG TARGETARCH
 RUN DOTNET_ARCH=$([ "$TARGETARCH" = "amd64" ] && echo "x64" || echo "$TARGETARCH") && \
-    dotnet publish "server/API/API.csproj" \
+    dotnet publish "API/API.csproj" \
     -c Release \
     -o /app/publish \
     --runtime linux-musl-${DOTNET_ARCH} \
