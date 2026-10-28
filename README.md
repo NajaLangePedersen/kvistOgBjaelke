@@ -10,7 +10,7 @@ When a user attempts to log in, the entered password is hashed using the same se
 These images show how the passwords are hashed using Argon2id. We have decided to create the method ComputeHash to avoid duplicate code, since it also has to be used when verifying passwords. 
 
 
-**2.1 VLAN plan**
+**2.1.1 VLAN plan**
 
 <img width="733" height="988" alt="billede" src="https://github.com/user-attachments/assets/3c7988c4-906d-4840-9580-ac582257218d" />
 
@@ -18,7 +18,19 @@ We have decided to make room for growth, by adding 50% on top of the amount of d
 Since the client VLAN needs to be 570, and the server VLAN needs to be 571, we have decided that all VLANs are numbered in accordance with them. This means that the subnets are in the 10.5.x.0 network range.
 The Network Equipment VLAN (99) is 10.5.99.0/28, to maintain a dedicated and easily identifiable subnet for network infrastructure devices. 
 
+**2.1.2**
 
+Subnetting examples:
+
+VLAN 572 - Network printers
+
+VLAN 572 is used for the company's network printers. We chose the subnet 10.5.72.0/28 because there are currently 3 printers, with a possible increase to 5 in the future. A /28 subnet provides 16 IP addresses in total, of which 14 can be assigned to devices. This gives us enough addresses for the printers, the gateway, and some additional devices without wasting too many addresses.
+The subnet mask is 255.255.255.240. The network address is 10.5.72.0, the usable host addresses range from 10.5.72.1 to 10.5.72.14, and the broadcast address is 10.5.72.15. We use 10.5.72.1 as the default gateway and static IP addresses for the printers, so their addresses remain predictable. The printers have their own VLAN to separate them from employee devices and reduce security risks if a printer is compromised.
+
+VLAN 573 - IP Phones
+
+VLAN 573 is used for the company's IP phones. We chose the subnet 10.5.73.0/27 because there are currently 12 phones, with a possible increase to 18. A /27 subnet provides 32 IP addresses in total, with 30 usable host addresses. This is enough for the phones, the gateway, and future expansion.
+The subnet mask is 255.255.255.224. The network address is 10.5.73.0, the usable host addresses range from 10.5.73.1 to 10.5.73.30, and the broadcast address is 10.5.73.31. We use 10.5.73.1 as the default gateway and DHCP to assign IP addresses automatically to the phones. Keeping IP phones in a separate VLAN separates voice traffic from regular data traffic and can make the network easier to manage.
 
 **2.2**
 
