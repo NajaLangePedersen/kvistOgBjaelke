@@ -8,7 +8,11 @@ When a user attempts to log in, the entered password is hashed using the same se
 
 <img width="958" height="500" alt="image" src="https://github.com/user-attachments/assets/9187d8e9-d9b9-4db6-aee5-fde665a8c0dc" />
 <img width="672" height="340" alt="image" src="https://github.com/user-attachments/assets/3480c6d7-95a5-403d-82fe-d6e184d3ce40" />
+
 These images show how the passwords are hashed using Argon2id. We have decided to create the method ComputeHash to avoid duplicate code, since it also has to be used when verifying passwords. 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 **2.1.1 VLAN plan**
