@@ -35,10 +35,16 @@ Client ip adresses:
 IP config: shows the ip adress is on 10.5.70.136/24 and subnet 10.5.70.0/24
 
 Client connection to server:
+
 <img width="1320" height="837" alt="billede" src="https://github.com/user-attachments/assets/47fa789a-7454-4e71-9d77-cac9612752bb" />
 
+This picture shows that the client VM on VLAN 570 can access the login platform’s Swagger UI on the server at 10.5.71.19:8000.
+
 Showing that we can log in from our client vm:
+
 <img width="712" height="391" alt="billede" src="https://github.com/user-attachments/assets/62cceb09-6ebe-4d2e-8357-0123cb88c9e5" />
+
+This picture shows that the client VM on VLAN 570 can access the login platform’s Swagger UI on the server at 10.5.71.19:8000, and use the login method in swagger to login.
 
 **Firewall and communication between VLANs**
 VLAN 570 and VLAN 571 are separate networks. This is to increase the security, because users can't directly communicate with every device on the server network. It also creates a logical separation, since 571 is for the server, while 570 is for client devices like laptops. 
