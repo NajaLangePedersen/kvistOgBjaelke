@@ -1,6 +1,7 @@
 Compulsory assignment
 
 **1.2 Implementation**
+
 To protect user passwords, the system doesn't store passwords in plain text. 
 We are using Argon2id to hash passwords, before they are stored in the database. We have chosen Argon2id, because it is a modern password-hashing algorithm, designed to resist brute-force attacks. 
 When a user attempts to log in, the entered password is hashed using the same settings, and are then compared to the stored hash. If the hashes match, the user is authenticated. 
@@ -11,6 +12,7 @@ These images show how the passwords are hashed using Argon2id. We have decided t
 
 
 **2.1.1 VLAN plan**
+
 
 <img width="733" height="988" alt="billede" src="https://github.com/user-attachments/assets/3c7988c4-906d-4840-9580-ac582257218d" />
 
