@@ -7,3 +7,6 @@ ubuntu server install
 
 Client ip adresses:
 <img width="973" height="346" alt="billede" src="https://github.com/user-attachments/assets/adeb8a82-5984-4009-bf3b-1479449b6094" />
+
+Client connection to server:
+<img width="1320" height="837" alt="billede" src="https://github.com/user-attachments/assets/47fa789a-7454-4e71-9d77-cac9612752bb" />
