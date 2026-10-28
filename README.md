@@ -14,7 +14,9 @@ The Network Equipment VLAN (99) is 10.5.99.0/28, to maintain a dedicated and eas
 **2.2**
 
 ubuntu server install
+
 <img width="731" height="240" alt="Skærmbillede 2026-10-28 kl  12 24 16" src="https://github.com/user-attachments/assets/bbd4120f-46ee-4cf7-a4f0-aad6577c8e2b" />
+
 Ubuntu: Show a picture that ubuntu is installed and is running on version 26.04.1
 
 <img width="1151" height="510" alt="Skærmbillede 2026-10-28 kl  11 56 28" src="https://github.com/user-attachments/assets/b414f08f-5722-4a09-a1d4-7a02f687cdee" />
