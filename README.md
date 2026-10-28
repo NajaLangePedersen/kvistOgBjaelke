@@ -26,3 +26,9 @@ Client connection to server:
 
 Showing that we can log in from our client vm:
 <img width="712" height="391" alt="billede" src="https://github.com/user-attachments/assets/62cceb09-6ebe-4d2e-8357-0123cb88c9e5" />
+
+
+**Reflections:**
+Problems:
+One problem we encountered was an incorrect file path in our Dockerfile. The Docker build failed because it could not find the project file at the specified location. We investigated the folder structure and discovered that the path in the Dockerfile did not match the actual location of the project. After correcting the path, (and downloading buildx) we were able to build the Docker image successfully.
+final:
