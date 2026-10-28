@@ -1,6 +1,16 @@
 Compulsory assignment
 
 
+**2.1 VLAN plan**
+
+<img width="733" height="988" alt="billede" src="https://github.com/user-attachments/assets/3c7988c4-906d-4840-9580-ac582257218d" />
+
+We have decided to make room for growth, by adding 50% on top of the amount of devices the company needs now. 
+Since the client VLAN needs to be 570, and the server VLAN needs to be 571, we have decided that all VLANs are numbered in accordance with them. This means that the subnets are in the 10.5.x.0 network range.
+The Network Equipment VLAN (99) is 10.5.99.0/28, to maintain a dedicated and easily identifiable subnet for network infrastructure devices. 
+
+
+
 **2.2**
 
 ubuntu server install
