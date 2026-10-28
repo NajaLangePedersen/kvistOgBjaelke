@@ -37,6 +37,15 @@ Client connection to server:
 Showing that we can log in from our client vm:
 <img width="712" height="391" alt="billede" src="https://github.com/user-attachments/assets/62cceb09-6ebe-4d2e-8357-0123cb88c9e5" />
 
+**Firewall and communication between VLANs**
+VLAN 570 and VLAN 571 are separate networks. This is to increase the security, because users can't directly communicate with every device on the server network. It also creates a logical separation, since 571 is for the server, while 570 is for client devices like laptops. 
+
+Communication between VLANs require routing, since a device on one VLAN, only knows how to communicate with other devices on that VLAN. When a client on VLAN 570 wants to connect to the login server on 571, the traffic must be routed between the two networks. 
+
+The firewall controls which traffic is allowed between networks. In this project, the firewall has been configured to allow communication between VLANs 570 and 571. 
+The firewall helps protect the server network from unauthorized access and limits communication to only the services that are required.
+
+Allowing to specific ports is beneficial in this project, since clients need access to the server to log in. However, they don't need access to all ports belonging to the server. This is why we had to choose a port between 8000-8100, to expose a port that the client can communicate with. 
 
 **Reflections:**
 
