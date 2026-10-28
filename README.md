@@ -21,7 +21,7 @@ Ubuntu: Show a picture that ubuntu is installed and is running on version 26.04.
 
 <img width="1151" height="510" alt="Skærmbillede 2026-10-28 kl  11 56 28" src="https://github.com/user-attachments/assets/b414f08f-5722-4a09-a1d4-7a02f687cdee" />
 
-IP config has the adress 10.5.71.19/24  and VLAN 571 and subnet 10.5.71.0/24
+IP config has the adress 10.5.71.19/24 and subnet 10.5.71.0/24
 Docker: "Docker lists the kvist-server image and the running container"
 Container "the kvist-server contaier is running with status Up."
 Port mapping "Docker maps server port 8000 to container port 8080."
@@ -29,7 +29,10 @@ Port mapping "Docker maps server port 8000 to container port 8080."
 **2.3**
 
 Client ip adresses:
+
 <img width="973" height="346" alt="billede" src="https://github.com/user-attachments/assets/adeb8a82-5984-4009-bf3b-1479449b6094" />
+
+IP config: shows the ip adress is on 10.5.70.136/24 and subnet 10.5.70.0/24
 
 Client connection to server:
 <img width="1320" height="837" alt="billede" src="https://github.com/user-attachments/assets/47fa789a-7454-4e71-9d77-cac9612752bb" />
