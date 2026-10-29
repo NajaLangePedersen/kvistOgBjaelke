@@ -73,7 +73,7 @@ Showing that we can log in from our client vm:
 <img width="1212" height="755" alt="image" src="https://github.com/user-attachments/assets/6f3507e5-2a02-44e9-945e-1ac6bfee13ef" />
 
 
-This picture shows that the client VM on VLAN 570 can access the login platform’s on the server at 10.5.71.20:8001, and can use the login.
+The Ubuntu client VM on VLAN 570 accessed the login platform hosted on the server at 10.5.71.20:8001. After a successful login, the user-management page loaded, demonstrating that the platform can be accessed and used from the client.
 
 **Firewall and communication between VLANs**
 VLAN 570 and VLAN 571 are separate networks. This is to increase the security, because users can't directly communicate with every device on the server network. It also creates a logical separation, since 571 is for the server, while 570 is for client devices like laptops. 
