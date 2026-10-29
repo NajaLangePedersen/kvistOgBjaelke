@@ -66,17 +66,14 @@ Client connection to server:
 
 <img width="1320" height="837" alt="billede" src="https://github.com/user-attachments/assets/47fa789a-7454-4e71-9d77-cac9612752bb" />
 
-This picture shows that the client VM on VLAN 570 can access the login platform’s Swagger UI on the server at 10.5.71.19:8000.
+This picture shows that the client VM on VLAN 570 can access the login platform’s on the adress 10.5.71.20:8001.
 
 Showing that we can log in from our client vm:
 <img width="1217" height="757" alt="image" src="https://github.com/user-attachments/assets/e61c9547-53bc-4cd1-a3c4-cb55438b42ad" />
 <img width="1212" height="755" alt="image" src="https://github.com/user-attachments/assets/6f3507e5-2a02-44e9-945e-1ac6bfee13ef" />
 
 
-
-From the Ubuntu client on VLAN 570, the login endpoint on the server returned HTTP 200 and issued a JWT. The token was then added to Swagger for authenticated API requests.
-
-This picture shows that the client VM on VLAN 570 can access the login platform’s Swagger UI on the server at 10.5.71.19:8000, and use the login method in swagger to login.
+This picture shows that the client VM on VLAN 570 can access the login platform’s on the server at 10.5.71.20:8001, and can use the login.
 
 **Firewall and communication between VLANs**
 VLAN 570 and VLAN 571 are separate networks. This is to increase the security, because users can't directly communicate with every device on the server network. It also creates a logical separation, since 571 is for the server, while 570 is for client devices like laptops. 
