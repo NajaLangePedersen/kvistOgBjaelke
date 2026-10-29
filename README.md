@@ -70,9 +70,7 @@ This picture shows that the client VM on VLAN 570 can access the login platformâ
 
 Showing that we can log in from our client vm:
 
-<img width="1633" height="921" alt="billede" src="https://github.com/user-attachments/assets/1c84fac1-884d-46d9-bd8e-d838e360e0f3" />
 
-<img width="712" height="391" alt="billede" src="https://github.com/user-attachments/assets/62cceb09-6ebe-4d2e-8357-0123cb88c9e5" />
 
 From the Ubuntu client on VLAN 570, the login endpoint on the server returned HTTP 200 and issued a JWT. The token was then added to Swagger for authenticated API requests.
 
