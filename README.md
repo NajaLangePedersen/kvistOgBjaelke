@@ -69,6 +69,8 @@ Client connection to server:
 This picture shows that the client VM on VLAN 570 can access the login platform’s Swagger UI on the server at 10.5.71.19:8000.
 
 Showing that we can log in from our client vm:
+<img width="1217" height="757" alt="image" src="https://github.com/user-attachments/assets/e61c9547-53bc-4cd1-a3c4-cb55438b42ad" />
+<img width="1212" height="755" alt="image" src="https://github.com/user-attachments/assets/6f3507e5-2a02-44e9-945e-1ac6bfee13ef" />
 
 
 
